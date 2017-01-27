@@ -4,13 +4,16 @@ import DockMonitor from 'redux-devtools-dock-monitor'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import thunkMiddleware from 'redux-thunk'
+import createLogger from 'redux-logger'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import * as reducers from './reducers'
 import { App, Home, Foo, Bar } from './components'
+const loggerMiddleware = createLogger()
 
 // notice the state tree? the structure is refer to the architecture here
 const reducer = combineReducers({
@@ -28,7 +31,11 @@ const DevTools = createDevTools(
 // using ctrl-h to toggle the redux devTool
 const store = createStore(
   reducer,
-  DevTools.instrument()
+  DevTools.instrument(),
+  applyMiddleware(
+      thunkMiddleware,
+      loggerMiddleware
+  )
 );
 const history = syncHistoryWithStore(browserHistory, store)
 

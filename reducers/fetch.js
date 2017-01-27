@@ -4,9 +4,7 @@ export default function postsBySubreddit(state = { }, action) {
   switch (action.type) {
     case RECEIVE_POSTS:
     case REQUEST_POSTS:
-      return Object.assign({}, state, {
-        [action.subreddit]: posts(state[action.subreddit], action)
-      })
+      return 'https://www.reddit.com/r/reactjs.json'
     default:
       return state
   }
